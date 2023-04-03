@@ -1,0 +1,15 @@
+---
+# Security
+# pmh_node_exporter_basic_auth_key: node_exporter
+pmh_node_exporter_service_user: node_exporter
+# pmh_node_exporter_prometheus_server_ip_addresses:
+#   - 0.0.0.0/0
+
+# Package Management
+# pmh_node_exporter_package_version: 1.5.0
+# pmh_node_exporter_package_os_arch: amd64
+
+# Do NOT Edit
+pmh_node_exporter_package_name: "node_exporter-{{ pmh_node_exporter_package_version }}.linux-{{ pmh_node_exporter_package_os_arch }}"
+pmh_node_exporter_package_download_name: "{{ pmh_node_exporter_package_name }}.tar.gz"
+pmh_node_exporter_package_download_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ pmh_node_exporter_package_version }}/{{ pmh_node_exporter_package_download_name }}"

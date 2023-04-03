@@ -1,0 +1,42 @@
+---
+- name: Copy node_exporter.service to /etc/systemd/system/
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/node_exporter.service
+  notify:
+    - reload systemd daemon
+    - restart node_exporter
+
+- name: Copy node_exporter_config.yml to /etc/
+  template:
+    src: config.j2
+    dest: /etc/node_exporter_config.yml
+  notify: restart node_exporter
+
+- name: Download Node Exporter package
+  get_url:
+    url: "{{ pmh_node_exporter_package_download_url }}"
+    dest: /tmp/{{ pmh_node_exporter_package_download_name }}
+    force: true
+
+- name: Unarchive Node Exporter package
+  unarchive:
+    src: /tmp/{{ pmh_node_exporter_package_download_name }}
+    dest: /tmp
+    remote_src: yes
+
+- name: Copy node_exporter to /usr/local/bin/ and set ownership to service user
+  copy:
+    src: /tmp/{{ pmh_node_exporter_package_name }}/node_exporter
+    dest: /usr/local/bin/node_exporter
+    remote_src: true
+    owner: "{{ pmh_node_exporter_service_user }}"
+    group: "{{ pmh_node_exporter_service_user }}"
+    mode: u+rwx,g+rwx
+  notify: restart node_exporter
+
+- name: Enable and start node_exporter
+  service:
+    name: node_exporter
+    state: started
+    enabled: yes

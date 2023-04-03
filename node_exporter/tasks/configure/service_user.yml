@@ -1,0 +1,7 @@
+---
+- name: Create service user
+  user:
+    name: "{{ pmh_node_exporter_service_user }}"
+    shell: /bin/false
+    create_home: no
+    state: present

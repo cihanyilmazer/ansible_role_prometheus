@@ -1,0 +1,7 @@
+---
+- import_tasks: configure/service_user.yml
+  tags: setup
+- import_tasks: install.yml
+  tags: setup
+- import_tasks: configure/ufw.yml
+  tags: setup

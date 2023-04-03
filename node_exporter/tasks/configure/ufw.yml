@@ -1,0 +1,10 @@
+---
+- name: Allow Node Exporter from Prometheus Servers
+  ufw:
+    rule: allow
+    direction: in
+    to_port: 9100
+    proto: tcp
+    src: "{{ item }}"
+    comment: allow node exporter from prometheus server
+  with_items: "{{ pmh_node_exporter_prometheus_server_ip_addresses }}"
